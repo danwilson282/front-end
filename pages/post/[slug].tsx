@@ -4,8 +4,11 @@ import groq from 'groq'
 import client from '../../client'
 import imageUrlBuilder from '@sanity/image-url'
 import {PortableText} from '@portabletext/react'
+import { InferGetStaticPropsType } from 'next'
+import { SanityImageSource } from '@sanity/image-url/lib/types/types'
+import { Key, ReactElement, JSXElementConstructor, ReactNode, PromiseLikeOfReactNode } from 'react'
 
-function urlFor (source) {
+function urlFor (source: SanityImageSource) {
   return imageUrlBuilder(client).image(source)
 }
 
@@ -26,7 +29,7 @@ const ptComponents = {
   }
 }
 
-const Post = (props) => {
+const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   //const router = useRouter()
   const { title = 'Missing title', name = 'Missing name', categories, authorImage, body = [] } = props.post
   return (
@@ -36,7 +39,7 @@ const Post = (props) => {
       {categories && (
         <ul>
           Posted in
-          {categories.map(category => <li key={category}>{category}</li>)}
+          {categories.map((category: boolean | Key | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | PromiseLikeOfReactNode | null | undefined) => <li key={category}>{category}</li>)}
         </ul>
       )}
       {authorImage && (
@@ -70,12 +73,12 @@ export async function getStaticPaths() {
   )
 
   return {
-    paths: paths.map((slug) => ({params: {slug}})),
+    paths: paths.map((slug: string) => ({params: {slug}})),
     fallback: true,
   }
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps(context: { params: { slug?: "" | undefined } }) {
   // It's important to default the slug so that it doesn't return "undefined"
   const { slug = "" } = context.params
   const post = await client.fetch(query, {slug})
