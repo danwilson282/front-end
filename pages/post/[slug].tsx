@@ -30,6 +30,11 @@ const ptComponents = {
 }
 
 const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+  if (!props.post){
+    return (
+      <div>Not found</div>
+    )
+  }
   //const router = useRouter()
   const { title = 'Missing title', name = 'Missing name', categories, authorImage, body = [] } = props.post
   return (
