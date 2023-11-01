@@ -14,7 +14,7 @@ function urlFor (source: SanityImageSource) {
 
 const ptComponents = {
   types: {
-    image: ({ value }) => {
+    image: ({ value={asset: {_ref:""}, alt: ""} }) => {
       if (!value?.asset?._ref) {
         return null
       }
@@ -39,7 +39,7 @@ const Post = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       {categories && (
         <ul>
           Posted in
-          {categories.map((category: boolean | Key | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | PromiseLikeOfReactNode | null | undefined) => <li key={category}>{category}</li>)}
+          {categories.map((category: boolean | Key | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | PromiseLikeOfReactNode | null | undefined) => <li key={category?.toString()}>{category?.toString()}</li>)}
         </ul>
       )}
       {authorImage && (
